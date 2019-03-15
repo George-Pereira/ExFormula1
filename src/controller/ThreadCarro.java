@@ -72,6 +72,7 @@ public class ThreadCarro extends Thread
 			{
 				melhorTempo = tempoFinal;
 			}
+			distPercorrida = 0;
 			System.out.println("O carro " + idcarro + " da Escuderia " + idEscuderia +" percorreu a pista com o tempo de " + (tempoFinal));
 		}
 		Grid.enviaTempo(new Posicao(idcarro, melhorTempo));

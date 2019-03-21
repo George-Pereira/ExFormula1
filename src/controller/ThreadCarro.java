@@ -7,6 +7,7 @@ public class ThreadCarro extends Thread
 {
 	
 	private static int [] Escuderia = new int[7];
+	private static String [] Scuderia = {"Mercedes-Benz", "Ferrari", "McLaren", "Aston Martin - Red Bull Racing", "Force India", "Alfa Romeo Racing", "Williams"};
 	private Semaphore semaforo;
 	private int pista=7004;
 	private int idEscuderia;
@@ -46,7 +47,7 @@ public class ThreadCarro extends Thread
 	
 	private void Volta()
 	{
-		System.out.println("O carro " + idcarro + " da Escuderia " + idEscuderia + " entrou na pista");
+		System.out.println("O carro " + idcarro + " da Escuderia " + Scuderia[idEscuderia] + " entrou na pista");
 		int distPercorrida = 0;
 		double melhorTempo = 0;
 		int velocidade=0;
@@ -73,9 +74,9 @@ public class ThreadCarro extends Thread
 				melhorTempo = tempoFinal;
 			}
 			distPercorrida = 0;
-			System.out.println("O carro " + idcarro + " da Escuderia " + idEscuderia +" percorreu a pista com o tempo de " + (tempoFinal));
+			System.out.println("O carro " + idcarro + " da Escuderia " + Scuderia[idEscuderia] +" percorreu a pista com o tempo de " + (tempoFinal));
 		}
 		Grid.enviaTempo(new Posicao(idcarro, melhorTempo));
-		System.out.println("O Carro " + idcarro + " da Escuderia " + idEscuderia + " foi para o Pit Lane");
+		System.out.println("O Carro " + idcarro + " da Escuderia " + Scuderia[idEscuderia] + " foi para o Pit Lane");
 	}
 }

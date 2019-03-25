@@ -6,48 +6,170 @@ import controller.Grid;
 public class ThreadCarro extends Thread
 {
 	
-	private static int [] Escuderia = new int[7];
 	private static String [] Scuderia = {"Mercedes-Benz", "Ferrari", "McLaren", "Aston Martin - Red Bull Racing", "Force India", "Alfa Romeo Racing", "Williams"};
-	private Semaphore semaforo;
+	private Semaphore semaforoMerc;
+	private Semaphore semaforoFerrari;
+	private Semaphore semaforoMcLaren;
+	private Semaphore semaforoAmrbr;
+	private Semaphore semaforoForce;
+	private Semaphore semaforoAlfa;
+	private Semaphore semaforoWilliams;
+	private Semaphore Pista;
 	private int pista=7004;
 	private int idEscuderia;
-	private int idcarro;	
-	public ThreadCarro(int idEscuderia, int idcarro, Semaphore semaforo)
+	private int idcarro;
+	private static int voltasRegistradas;
+	public ThreadCarro(int idEscuderia, int idcarro, Semaphore semaforoMerc, Semaphore semaforoFerrari, Semaphore semaforoMcLaren, Semaphore semaforoAmrbr, Semaphore semaforoForce, Semaphore semaforoAlfa, Semaphore semaforoWilliams, Semaphore Pista)
 	{
 		this.idEscuderia = idEscuderia;
 		this.idcarro = idcarro;
-		this.semaforo = semaforo;
+		this.semaforoMerc = semaforoMerc;
+		this.semaforoFerrari = semaforoFerrari;
+		this.semaforoMcLaren = semaforoMcLaren;
+		this.semaforoAmrbr = semaforoAmrbr;
+		this.semaforoForce = semaforoForce;
+		this.semaforoAlfa = semaforoAlfa;
+		this.semaforoWilliams = semaforoWilliams;
+		this.Pista = Pista;
 	}
 	
 	public void run()
 	{
-		try 
+		if(idEscuderia == 0) 
 		{
-			semaforo.acquire();
-			if(Escuderia[idEscuderia] < 2)
+			try 
 			{
-				Escuderia[idEscuderia]++;
+				semaforoMerc.acquire();
+				Pista.acquire();
+				Volta();
+			} 
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}
+			finally 
+			{
+				semaforoMerc.release();
+				Pista.release();
+			}
+		}
+		else if(idEscuderia == 1) 
+		{
+			try 
+			{
+				semaforoFerrari.acquire();
+				Pista.acquire();
 				Volta();
 			}
-		}
-		catch (InterruptedException e) 
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			Escuderia[idEscuderia]--;
-			semaforo.release();
-			if(Escuderia[0] == 0 && Escuderia[1] == 0 && Escuderia[2] == 0 && Escuderia[3] == 0 && Escuderia[4] == 0 && Escuderia[5] == 0 && Escuderia[6] == 0) 
+			catch (InterruptedException e) 
 			{
-				Grid.mostraGrid();
+				e.printStackTrace();
 			}
+			finally 
+			{
+				semaforoFerrari.release();
+				Pista.release();
+			}
+		}
+		else if (idEscuderia == 2) 
+		{
+			try 
+			{
+				semaforoMcLaren.acquire();
+				Pista.acquire();
+				Volta();
+			}
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}
+			finally 
+			{
+				semaforoMcLaren.release();
+				Pista.release();
+			}
+		}
+		else if (idEscuderia == 3)
+		{
+			try 
+			{
+				semaforoAmrbr.acquire();
+				Pista.acquire();
+				Volta();
+			}
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}
+			finally 
+			{
+				semaforoAmrbr.release();
+				Pista.release();
+			}
+		}
+		else if (idEscuderia == 4) 
+		{
+			try 
+			{
+				semaforoForce.acquire();
+				Pista.acquire();
+				Volta();
+			}
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}
+			finally 
+			{
+				semaforoForce.release();
+				Pista.release();
+			}
+		}
+		else if (idEscuderia == 5) 
+		{
+			try 
+			{
+				semaforoAlfa.acquire();
+				Pista.acquire();
+				Volta();
+			}
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}
+			finally 
+			{
+				semaforoAlfa.release();
+				Pista.release();
+			}
+		}
+		else
+		{
+			try 
+			{
+				semaforoWilliams.acquire();
+				Pista.acquire();
+				Volta();
+			}
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}
+			finally 
+			{
+				semaforoWilliams.release();
+				Pista.release();
+			}
+		}
+		if(voltasRegistradas == 14) 
+		{
+			Grid.mostraGrid();
 		}
 	}
 	
 	private void Volta()
 	{
-		System.out.println("O carro " + idcarro + " da Escuderia " + Scuderia[idEscuderia] + " entrou na pista");
+		System.out.println("O Carro " + idcarro + " da Escuderia " + Scuderia[idEscuderia] + " entrou na pista");
 		int distPercorrida = 0;
 		double melhorTempo = 0;
 		int velocidade=0;
@@ -74,9 +196,10 @@ public class ThreadCarro extends Thread
 				melhorTempo = tempoFinal;
 			}
 			distPercorrida = 0;
-			System.out.println("O carro " + idcarro + " da Escuderia " + Scuderia[idEscuderia] +" percorreu a pista com o tempo de " + (tempoFinal));
+			System.out.println("O Carro " + idcarro + " da Escuderia " + Scuderia[idEscuderia] +" percorreu a pista com o tempo de " + (tempoFinal));
 		}
 		Grid.enviaTempo(new Posicao(idcarro, melhorTempo));
 		System.out.println("O Carro " + idcarro + " da Escuderia " + Scuderia[idEscuderia] + " foi para o Pit Lane");
+		voltasRegistradas++;
 	}
 }
